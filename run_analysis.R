@@ -100,6 +100,19 @@ human_activity <- human_activity[, selected_variables == TRUE]
 
 ##Forming tidy data set
 
+# Step 5: From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+FinalData <- TidyData %>%
+  group_by(subject, activity) %>%
+  summarise_all(funs(mean))
+write.table(FinalData, "FinalData.txt", row.name=FALSE)
+
+
+# Final Check Stage
+# Checking variable names
+str(FinalData)
+
+FinalData
+
 tidy_data_set <- aggregate(. ~ activity + subject, data = human_activity, mean)
 
 names(tidy_data_set)[c(3:dim(tidy_data_set)[2])] <- sub("(.)", "avg.\\1", names(tidy_data_set)[c(3:dim(tidy_data_set)[2])])
